@@ -1,7 +1,17 @@
 import { useSession, signIn, signOut } from "next-auth/react"
+import { useEffect } from 'react'
 
 export default function Component() {
   const { data: session } = useSession()
+  console.log("login Session: ", session);
+
+  useEffect(() => {
+    if (session?.error === "RefreshAccessTokenError") {
+      //     signIn() // Force sign in to hopefully resolve error
+      signOut(); // Force sign out to hopefully resolve error
+    }
+  }, [session]);
+
   if (session) {
     return (
       <>
